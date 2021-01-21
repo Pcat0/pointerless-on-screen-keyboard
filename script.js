@@ -16,7 +16,7 @@ const keyboardLayout = [
 
 
 function init(){
-    ctx.setTransform(40,0,0,40,10,10);
+    ctx.translate(10,10);
     const keyboardUI = new KeyboardUI(keyboardLayout, ctx);
     keyboardUI.draw();
     

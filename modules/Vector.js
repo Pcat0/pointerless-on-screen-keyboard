@@ -7,8 +7,11 @@ export class Vector2 { //Why am I implementing vector math for a shit post?
         yield this.x;
         yield this.y;
     }
-    add(vector2){
+    add(vector2) {
         return new Vector2(this.x + vector2.x, this.y + vector2.y);
+    }
+    sub(vector2) {
+        return new Vector2(this.x - vector2.x, this.y - vector2.y);
     }
     mult(scaler) {
         return new Vector2(this.x * scaler, this.y * scaler);

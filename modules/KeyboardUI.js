@@ -5,9 +5,22 @@ import {Color, Style} from './CanvasStyling.js';
 const DEFAULT_KEY_STYLE = new Style({
     foreground: Color.GRAY, 
     background: Color.LIGHT_GRAY,
-    lineWidth: .025
+    lineWidth: 1
 });
 
+
+export class BoundingBox {
+    constructor(p1, p2){
+        this.p1 = p1;
+        this.p2 = p2;
+    }
+    getRect(){
+        return [
+            ...this.p1,
+            ...this.p2.sub(this.p1)
+        ];
+    }
+}
 
 export class Cursor {
     constructor (pos, style){
@@ -17,7 +30,7 @@ export class Cursor {
     draw(canvas){
         this.style.applyTo(canvas);
         canvas.beginPath();
-        canvas.arc(...this.pos, .1, 0, Math.PI * 2, true);
+        canvas.arc(...this.pos, 20, 0, Math.PI * 2, true);
         canvas.fill();
     }
 }
@@ -25,10 +38,8 @@ export class Cursor {
 export class Key {
     constructor(id, pos, dim, style) {
         this.id = id;
-        this.pos = pos;
-        this.dim = dim;
+        this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
-        console.log(style);
     }
     get pos2() {
         return this.pos.add(this.dim)
@@ -36,8 +47,8 @@ export class Key {
     draw(canvas){
         this.style.applyTo(canvas);
         canvas.beginPath();
-
-        canvas.rect(...this.pos, ...this.dim);
+        console.log(...this.bounds.getRect())
+        canvas.rect(...this.bounds.getRect());
         canvas.fill();
         canvas.stroke();
     }
@@ -49,7 +60,6 @@ export class KeyboardUI {
         this.cursor = new Cursor(Vector2.ZERO, new Style({
             background: Color.RED
         }));
-        console.log(this.cursor.style)
     }
     static parseKeyboardDef(keyboardDef){
         let keys = [];
@@ -65,10 +75,10 @@ export class KeyboardUI {
         return keys;
     }
     draw() {
-        this.canvas.save();
-        this.canvas.setTransform(1, 0, 0, 1, 0, 0);
-        this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
-        this.canvas.restore();
+        //this.canvas.save();
+        //this.canvas.setTransform(1, 0, 0, 1, 0, 0);
+        ///this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
+        //this.canvas.restore();
         for (const key of this.keys) {
            key.draw(this.canvas);
         }
