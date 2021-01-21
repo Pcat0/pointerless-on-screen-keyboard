@@ -86,8 +86,14 @@ export class Key {
     drawLabel(canvas, style = this.style){
         style.applyTo_text(canvas);
 
-
-        canvas.fillText(this.label[0], ...this.bounds.center);
+        if(this.label.length == 1) {
+            canvas.fillText(this.label[0], ...this.bounds.center);
+        } else {
+            canvas.textBaseline = Style.TextBaseline.BOTTOM
+            canvas.fillText(this.label[0], ...this.bounds.center);
+            canvas.textBaseline = Style.TextBaseline.TOP
+            canvas.fillText(this.label[1], ...this.bounds.center);
+        }
     }
 }
 export class KeyboardUI {
