@@ -18,15 +18,18 @@ export class BoundingBox {
         this.p1 = new Vector2(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y));
         this.p2 = new Vector2(Math.max(p1.x, p2.x), Math.max(p1.y, p2.y));
     }
-    getRect(){
+    contains(vector2) {
+        return this.p1.x <= vector2.x && vector2.x <= this.p2.x &&
+               this.p1.y <= vector2.y && vector2.y <= this.p2.y;
+    }
+    get rect(){
         return [
             ...this.p1,
             ...this.p2.sub(this.p1)
         ];
     }
-    contains(vector2) {
-        return this.p1.x <= vector2.x && vector2.x <= this.p2.x &&
-               this.p1.y <= vector2.y && vector2.y <= this.p2.y;
+    get center() {
+        return this.p1.add(this.p2).div(2);
     }
 }
 
@@ -45,10 +48,23 @@ export class Cursor {
 }
 
 export class Key {
-    constructor(id, pos, dim, label, style) {
+    constructor(id, pos, dim, props, style) {
         this.id = id;
         this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
+        props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props);
+        if (props.label != null && props.label.constructor === Array) {
+            console.log( props.label.constructor)
+            this.label = props.label.slice(0,2);
+        } else if (props.label != null && props.label.constructor === String) {
+            this.label = [props.label];
+        } else if (props.key != null) {
+            this.label = [props.key.toUpperCase()];
+        } else if (props.upper != null && props.lower != null) {
+            this.label = [props.upper, props.lower];
+        }else {
+            this.label = [''];
+        }
     }
     get pos2() {
         return this.pos.add(this.dim);
@@ -56,9 +72,22 @@ export class Key {
     draw(canvas, style = this.style){
         style.applyTo(canvas);
         canvas.beginPath();
-        canvas.rect(...this.bounds.getRect());
+        canvas.rect(...this.bounds.rect);
         canvas.fill();
         canvas.stroke();
+        
+        this.drawLabel(canvas, style);
+        
+        // canvas.beginPath();
+        // canvas.arc(...this.bounds.center, 4, 0, Math.PI * 2, true);
+        // canvas.fill();
+        //
+    }
+    drawLabel(canvas, style = this.style){
+        style.applyTo_text(canvas);
+
+
+        canvas.fillText(this.label[0], ...this.bounds.center);
     }
 }
 export class KeyboardUI {
@@ -78,7 +107,7 @@ export class KeyboardUI {
                 keys.push(new Key(keyID,
                     new Vector2(x, y),
                     new Vector2(col, 1),
-                    keyboardDef.lables[keyID++],
+                    keyboardDef.keyProps[keyID++],
                     DEFAULT_KEY_STYLE));
                 x += col;
             }

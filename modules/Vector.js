@@ -16,5 +16,8 @@ export class Vector2 { //Why am I implementing vector math for a shit post?
     mult(scaler) {
         return new Vector2(this.x * scaler, this.y * scaler);
     }
+    div(scaler) {
+        return new Vector2(this.x / scaler, this.y / scaler);
+    }
     static get ZERO(){return new Vector2(0,0)}
 }
