@@ -5,6 +5,11 @@ import {Color, Style} from './CanvasStyling.js';
 const DEFAULT_KEY_STYLE = new Style({
     strokeStyle: Color.GRAY, 
     fillStyle: Color.LIGHT_GRAY,
+});
+
+const DEFAULT_KEY_TEXT_STYLE = new Style({
+    strokeStyle: Color.BLACK, 
+    fillStyle: Color.BLACK,
     textBaseline: Style.TextBaseline.MIDDLE,
     textAlign: Style.TextAlign.CENTER
 });
@@ -48,10 +53,11 @@ export class Cursor {
 }
 
 export class Key {
-    constructor(id, pos, dim, props, style) {
+    constructor(id, pos, dim, props, style, textStyle) {
         this.id = id;
         this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
+        this.textStyle = textStyle;
         props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props);
         if (props.label != null && props.label.constructor === Array) {
             console.log( props.label.constructor)
@@ -76,15 +82,15 @@ export class Key {
         canvas.fill();
         canvas.stroke();
         
-        this.drawLabel(canvas, style);
+        this.drawLabel(canvas);
         
         // canvas.beginPath();
         // canvas.arc(...this.bounds.center, 4, 0, Math.PI * 2, true);
         // canvas.fill();
         //
     }
-    drawLabel(canvas, style = this.style){
-        style.applyTo_text(canvas);
+    drawLabel(canvas, style = this.textStyle){
+        style.applyTo(canvas);
 
         if(this.label.length == 1) {
             canvas.fillText(this.label[0], ...this.bounds.center);
@@ -114,7 +120,8 @@ export class KeyboardUI {
                     new Vector2(x, y),
                     new Vector2(col, 1),
                     keyboardDef.keyProps[keyID++],
-                    DEFAULT_KEY_STYLE));
+                    DEFAULT_KEY_STYLE,
+                    DEFAULT_KEY_TEXT_STYLE));
                 x += col;
             }
             y += 1;

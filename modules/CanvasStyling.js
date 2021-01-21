@@ -192,9 +192,6 @@ export class Style {
         fillStyle: Color.WHITE,
         strokeStyle: Color.BLACK,
         lineWidth: 1,
-        
-        fillStyle_text: Color.BLACK,
-        strokeStyle_text: Color.BLACK,
         lineWidth_text: 1,
         font: "10px sans-serif",
         textBaseline: Style.TextBaseline.ALPHABETIC,
@@ -205,18 +202,7 @@ export class Style {
         Object.assign(this, Style.DEFAULT, base,  styleObj);
     }
     applyTo(canvas){
-        //for (const prop in this) canvas[prop] = this[prop];
-        canvas.fillStyle = this.fillStyle;
-        canvas.strokeStyle = this.strokeStyle;
-        canvas.lineWidth = this.lineWidth;
-    }
-    applyTo_text(canvas){
-        canvas.fillStyle = this.fillStyle_text;
-        canvas.strokeStyle = this.strokeStyle_text;
-        canvas.lineWidth = this.lineWidth_text;
-        canvas.font = this.font;
-        canvas.textBaseline = this.textBaseline;
-        canvas.textAlign = this.textAlign;
+        for (const prop in this) canvas[prop] = this[prop];
     }
     static TextBaseline = class {
         static get TOP(){return "top"};
