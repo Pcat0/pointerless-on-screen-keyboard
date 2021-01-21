@@ -1,4 +1,4 @@
-export class Color {
+export class Color { //TODO: Add alpha 
     constructor (arg0, arg1, arg2) { //Either Color(r, g, b) or Color(hex)
         if(typeof arg0 == 'undefined'){
             this.hex = Color.BLACK;
@@ -188,15 +188,34 @@ export class Color {
     static get YELLOW_GREEN(){return new Color("#9ACD32");}
 }
 export class Style {
-    constructor (styleObj) {
-        this.foreground = styleObj.foreground ?? Color.BLACK;
-        this.background = styleObj.background ?? Color.WHITE;
-        this.lineWidth  = styleObj.lineWidth  ?? 1;
+    static get DEFAULT(){return {
+        fillStyle: Color.WHITE,
+        strokeStyle: Color.BLACK,
+        font: "10px sans-serif",
+        textBaseline: Style.TextBaseline.ALPHABETIC,
+        textAlign: Style.TextAlign.LEFT,
+        lineWidth: 1,
+    }}
+
+    constructor (styleObj, base = {}) {
+        Object.assign(this, Style.DEFAULT, base,  styleObj);
     }
     applyTo(canvas){
-        canvas.fillStyle = this.background;
-        canvas.strokeStyle = this.foreground; 
-        canvas.lineWidth = this.lineWidth;
+        for (const prop in this) canvas[prop] = this[prop];
     }
-    
+    static TextBaseline = class {
+        static get TOP(){return "top"};
+        static get HANGING(){return "hanging"};
+        static get MIDDLE(){return "middle"};
+        static get ALPHABETIC(){return "alphabetic"};
+        static get IDEOGRAPHIC(){return "ideographic"};
+        static get BOTTOM(){return "bottom"};
+    }
+    static TextAlign = class {
+        static get LEFT(){return "left"};
+        static get RIGHT(){return "right"};
+        static get CENTER(){return "center"};
+        static get START(){return "start"};
+        static get END(){return "end"};
+    }
 }

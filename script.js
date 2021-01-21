@@ -6,18 +6,40 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 
-const keyboardLayout = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-    [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5],
-    [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.25],
-    [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
-    [1.5, 1, 1.25, 6.5, 1.25, 1, 1, 1.5]
-]
+const keyboardLayout = {
+    grid: [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+        [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5],
+        [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.25],
+        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
+        [1.5, 1, 1.25, 6.5, 1.25, 1, 1, 1.5]
+    ],
+    lables:[
+        {upper:"~", lower:"`"},
+        {upper:"!", lower:"1"},
+        {upper:"@", lower:"2"},
+        {upper:"#", lower:"3"},
+        {upper:"$", lower:"4"},
+        {upper:"%", lower:"5"},
+        {upper:"^", lower:"6"},
+        {upper:"&", lower:"7"},
+        {upper:"*", lower:"8"},
+        {upper:"(", lower:"9"},
+        {upper:")", lower:"0"},
+        {upper:"_", lower:"-"},
+        {upper:"+", lower:"="},
+        {lable:"←"}
+    ]
+}
 
 
 function init(){
     ctx.translate(10,10);
     const keyboardUI = new KeyboardUI(keyboardLayout, ctx);
+    window.requestAnimationFrame(function draw() {
+        keyboardUI.draw();
+        window.requestAnimationFrame(draw);
+    })
     keyboardUI.draw();
     
     window.keyboardUI = keyboardUI;
