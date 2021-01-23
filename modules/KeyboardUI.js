@@ -1,4 +1,4 @@
-import {Vector2} from './Vector.js';
+import {Vector2,BoundingBox} from './Vector.js';
 import {Color, Style} from './CanvasStyling.js';
 
 
@@ -11,32 +11,13 @@ const DEFAULT_KEY_TEXT_STYLE = new Style({
     strokeStyle: Color.BLACK, 
     fillStyle: Color.BLACK,
     textBaseline: Style.TextBaseline.MIDDLE,
-    textAlign: Style.TextAlign.CENTER
+    textAlign: Style.TextAlign.CENTER,
+    font: "11px sans-serif"
 });
 const ACTIVE_KEY_STYLE = new Style({
     fillStyle: Color.STEEL_BLUE
 }, DEFAULT_KEY_STYLE);
 
-
-export class BoundingBox {
-    constructor(p1, p2) {
-        this.p1 = new Vector2(Math.min(p1.x, p2.x), Math.min(p1.y, p2.y));
-        this.p2 = new Vector2(Math.max(p1.x, p2.x), Math.max(p1.y, p2.y));
-    }
-    contains(vector2) {
-        return this.p1.x <= vector2.x && vector2.x <= this.p2.x &&
-               this.p1.y <= vector2.y && vector2.y <= this.p2.y;
-    }
-    get rect(){
-        return [
-            ...this.p1,
-            ...this.p2.sub(this.p1)
-        ];
-    }
-    get center() {
-        return this.p1.add(this.p2).div(2);
-    }
-}
 
 export class Cursor {
     constructor (pos, style){
@@ -58,9 +39,10 @@ export class Key {
         this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
         this.textStyle = textStyle;
+
+
         props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props);
         if (props.label != null && props.label.constructor === Array) {
-            console.log( props.label.constructor)
             this.label = props.label.slice(0,2);
         } else if (props.label != null && props.label.constructor === String) {
             this.label = [props.label];
@@ -71,7 +53,23 @@ export class Key {
         }else {
             this.label = [''];
         }
+
+        if (props.action != null) {
+            if(props.action.constructor === Array) this.action = props.label; 
+            else this.action = [props.action];
+        } else if(props.key != null) {
+            this.action = [props.key.toLowerCase(), props.key.toUpperCase()];
+        } else if (props.upper != null && props.lower != null) {
+            this.action = [props.upper, props.lower];
+        } else {
+            this.action = [''];
+        }
+        this.action = [...this.action, ...this.action].slice(0,2);
     }
+    getAction(shift) {
+        return this.action[shift];
+    }
+
     get pos2() {
         return this.pos.add(this.dim);
     }
@@ -83,11 +81,6 @@ export class Key {
         canvas.stroke();
         
         this.drawLabel(canvas);
-        
-        // canvas.beginPath();
-        // canvas.arc(...this.bounds.center, 4, 0, Math.PI * 2, true);
-        // canvas.fill();
-        //
     }
     drawLabel(canvas, style = this.textStyle){
         style.applyTo(canvas);
@@ -130,6 +123,9 @@ export class KeyboardUI {
     }
     getKeyAtPoint(point) {
         return this.keys.find(key=>key.bounds.contains(point));
+    }
+    getKeyAtCursor() {
+        return this.getKeyAtPoint(this.cursor.pos);
     }
     draw() {
         this.canvas.save();
