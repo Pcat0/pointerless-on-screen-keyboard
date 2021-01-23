@@ -60,14 +60,14 @@ export class Key {
         } else if(props.key != null) {
             this.action = [props.key.toLowerCase(), props.key.toUpperCase()];
         } else if (props.upper != null && props.lower != null) {
-            this.action = [props.upper, props.lower];
+            this.action = [props.lower, props.upper];
         } else {
             this.action = [''];
         }
         this.action = [...this.action, ...this.action].slice(0,2);
     }
     getAction(shift) {
-        return this.action[shift];
+        return this.action[+shift];
     }
 
     get pos2() {
