@@ -29,7 +29,7 @@ const keyboardLayout = {
         {upper:")", lower:"0"},
         {upper:"_", lower:"-"},
         {upper:"+", lower:"="},
-        {label:"←", action:"__BACKSPACE__"},//v
+        {label:"←", action:"__BACKSPACE__"},
         {label:"TAB ⭾", action:"__TAB__"},
         {key:"q"},
         {key:"w"},
@@ -118,6 +118,12 @@ function sendKey(key, element){
             typeText(' ', element);
             break;
         case "__BACKSPACE__":
+            if(element.selectionStart == element.selectionEnd){
+                value.substring(0, index) + value.substring(index + 1);
+            } else {
+                typeText('', element)
+            }
+            break;
         case "__CAPSLOCK__":
         case "__SHIFT__":
             // TODO: this.
