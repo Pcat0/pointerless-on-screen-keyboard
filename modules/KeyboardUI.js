@@ -101,11 +101,10 @@ export class KeyboardUI {
         this.cursor = new Cursor(Vector2.ZERO, new Style({
             fillStyle: Color.RED
         }));
-
-
-
-        this.shift = 0;
+        this.shift = false; 
+        this.capsLock = false; 
     }
+    
     static parseKeyboardDef(keyboardDef){
         let keys = [];
         let y = 0, keyIndex = 0;
@@ -145,7 +144,8 @@ export class KeyboardUI {
         this.cursor.draw(this.canvas);
     }
     press(target){
-        const action = this.getKeyAtCursor().getAction(false);
+        const action = this.getKeyAtCursor().getAction(this.shift || this.capsLock);//TODO: stop caps lock from working on non-letter keys  
+        this.shift = false;
         switch(action) {
             case "__TAB__":
                 target.type('\t');
@@ -163,7 +163,9 @@ export class KeyboardUI {
                 target.backspace(1);
                 break;
             case "__CAPSLOCK__":
+                this.capsLock ^= true;
             case "__SHIFT__":
+                this.shift = true;
                 // TODO: this.
                 break;
             

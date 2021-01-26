@@ -109,7 +109,7 @@ let lastKeyCoord = Vector2.NULL;
 let lastTimeout = null;
 
 
-document.addEventListener("keydown", (event)=>{
+textField.elemenet.addEventListener("keydown", (event)=>{
     window.clearTimeout(lastTimeout);
 
     var keyCoord = new Vector2(layout[event.code]);
