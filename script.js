@@ -9,13 +9,14 @@ const ctx = canvas.getContext("2d");
 
 const keyboardLayout = {
     grid: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, .25, 1, 1, 1],
+        [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, .25, 1, 1, 1],
         [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.25],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3],
-        [1.5, 1, 1.25, 6.5, 1.25, 1, 1, 1.5]
+        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1.25, 1],
+        [1.5, 1, 1.25, 6.5, 1.25, 1, 1, 1.5, .25, 1, 1, 1]
     ],
     keyProps:[
+        /* Line 0 */
         {upper:"~", lower:"`"},
         {upper:"!", lower:"1"},
         {upper:"@", lower:"2"},
@@ -30,6 +31,12 @@ const keyboardLayout = {
         {upper:"_", lower:"-"},
         {upper:"+", lower:"="},
         {label:"←", action:"__BACKSPACE__"},
+        false,
+        {label:"Insert", action:"__INSERT__"},
+        {label:"Home", action:"__HOME__"},
+        {label:["Page", "Up"], action:"__PAGEUP__"},
+        
+        /* Line 1 */
         {label:"TAB ⭾", action:"__TAB__"},
         {key:"q"},
         {key:"w"},
@@ -44,6 +51,12 @@ const keyboardLayout = {
         {upper:"{", lower:"["},
         {upper:"}", lower:"]"},
         {upper:"|", lower:"\\"},
+        false,
+        {label:"⌦", action:"__DELETE__"},
+        {label:"End", action:"__END__"},
+        {label:["Page", "Down"], action:"__PAGEDOWN__"},
+
+        /* Line 2*/
         {label: ["CAPS", "LOCK"], action:"__CAPSLOCK__"},
         {key:"a"},
         {key:"s"},
@@ -57,6 +70,8 @@ const keyboardLayout = {
         {upper:":", lower:";"},
         {upper:"\"", lower:"'"},
         {label:["ENTER","⏎"], action:"__ENTER__"},
+
+        /* Line 3 */
         {label:"SHIFT", action:"__SHIFT__"},
         {key:"z"},
         {key:"x"},
@@ -69,6 +84,9 @@ const keyboardLayout = {
         {upper:">", lower:"."},
         {upper:"?", lower:"/"},
         {label:"SHIFT", action:"__SHIFT__"},
+        false, 
+        {label:'ᐃ', action:"__ARROW_UP__"},
+        /* Line 4 */
         {label:"CTRL", action:"__CTRL__"},
         {label:"WIN", action:"__WIN__"},
         {label:"ALT", action:"__ALT__"},
@@ -77,6 +95,10 @@ const keyboardLayout = {
         {label:"WIN", action:"__WIN__"},
         {label:"☰"},
         {label:"CTRL",action:"__CTRL__"},
+        false,
+        {label:'ᐊ', action:"__ARROW_LEFT__"},
+        {label:'ᐁ', action:"__ARROW_DOWN__"},
+        {label:'ᐅ', action:"__ARROW_RIGHT__"},
         
     ]
 }

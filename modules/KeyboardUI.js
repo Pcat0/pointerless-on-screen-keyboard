@@ -34,8 +34,7 @@ export class Cursor {
 }
 
 export class Key {
-    constructor(id, pos, dim, props, style, textStyle) {
-        this.id = id;
+    constructor(pos, dim, props, style, textStyle) {
         this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
         this.textStyle = textStyle;
@@ -109,17 +108,20 @@ export class KeyboardUI {
     }
     static parseKeyboardDef(keyboardDef){
         let keys = [];
-        let y = 0, keyID = 0;
+        let y = 0, keyIndex = 0;
         for (const row of keyboardDef.grid) {
             let x = 0;
             for(const col of row) {
-                keys.push(new Key(keyID,
-                    new Vector2(x, y),
-                    new Vector2(col, 1),
-                    keyboardDef.keyProps[keyID++],
-                    DEFAULT_KEY_STYLE,
-                    DEFAULT_KEY_TEXT_STYLE));
+                if(keyboardDef.keyProps[keyIndex]){
+                    keys.push(new Key(
+                        new Vector2(x, y),
+                        new Vector2(col, 1),
+                        keyboardDef.keyProps[keyIndex],
+                        DEFAULT_KEY_STYLE,
+                        DEFAULT_KEY_TEXT_STYLE));
+                }
                 x += col;
+                keyIndex++;
             }
             y += 1;
         }
