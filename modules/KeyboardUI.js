@@ -159,9 +159,26 @@ export class KeyboardUI {
             case "__BACKSPACE__":
                 target.backspace();
                 break;
+            case "__DELETE__":
+                target.backspace(1);
+                break;
             case "__CAPSLOCK__":
             case "__SHIFT__":
                 // TODO: this.
+                break;
+            
+            case "__ARROW_UP__":
+            case "__ARROW_DOWN__":
+            case "__ARROW_RIGHT__":
+            case "__ARROW_LEFT__":
+                //This will be a pain.
+                break;
+            case "__INSERT__":
+            case "__HOME__":
+            case "__END__":
+            case "__PAGEUP__":
+            case "__PAGEDOWN__":
+                //TODO: Maybe to this.
                 break;
             case "__CTRL__":
             case "__WIN__":
