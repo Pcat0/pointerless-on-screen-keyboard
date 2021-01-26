@@ -1,10 +1,10 @@
 "use strict";
 import {KeyboardUI} from './modules/KeyboardUI.js'
 import { Vector2 } from './modules/Vector.js';
-import {splitStr3Ways} from './modules/miscellaneousFunct.js';
+import {TextField} from './modules/textField.js';
 
 const canvas = document.getElementById("canvas");
-const textArea = document.getElementById("textArea");
+const textField = new TextField(document.getElementById("textArea"));
 const ctx = canvas.getContext("2d");
 
 const keyboardLayout = {
@@ -97,48 +97,12 @@ document.addEventListener("keydown", (event)=>{
         keyboardUI.cursor.pos = keyboardUI.cursor.pos.add(delta.mult(.75));
     }
     lastKeyCoord = keyCoord;
-    lastTimeout = window.setTimeout(_=>sendKey(keyboardUI.getKeyAtCursor().getAction(false), textArea), 2000);
+    lastTimeout = window.setTimeout(_ => keyboardUI.press(textField), 2000);
 
     event.preventDefault();
 });
-function typeText(text, element) {
-    let [start, ,end] = splitStr3Ways(element.value, element.selectionStart, element.selectionEnd);
-    element.value = start+text+end;
-}
 
-function sendKey(key, element){
-    switch(key) {
-        case "__TAB__":
-            typeText('\t', element);
-            break;
-        case "__ENTER__":
-            typeText('\n', element);
-            break;
-        case "__SPACE__":
-            typeText(' ', element);
-            break;
-        case "__BACKSPACE__":
-            if(element.selectionStart == element.selectionEnd){
-                value.substring(0, index) + value.substring(index + 1);
-            } else {
-                typeText('', element)
-            }
-            break;
-        case "__CAPSLOCK__":
-        case "__SHIFT__":
-            // TODO: this.
-            break;
-        case "__CTRL__":
-        case "__WIN__":
-        case "__ALT__":
-            /*How da fuck do I implement this?*/
-            break;
-        default:
-            typeText(key, element);   
-    }
-}
 
-window.sendKey = sendKey;
 function init(){
     ctx.translate(10,10);
     const keyboardUI = new KeyboardUI(keyboardLayout, ctx);

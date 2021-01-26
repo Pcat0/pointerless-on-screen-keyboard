@@ -102,6 +102,10 @@ export class KeyboardUI {
         this.cursor = new Cursor(Vector2.ZERO, new Style({
             fillStyle: Color.RED
         }));
+
+
+
+        this.shift = 0;
     }
     static parseKeyboardDef(keyboardDef){
         let keys = [];
@@ -137,6 +141,34 @@ export class KeyboardUI {
             key.draw(this.canvas, style);
         }
         this.cursor.draw(this.canvas);
+    }
+    press(target){
+        const action = this.getKeyAtCursor().getAction(false);
+        switch(action) {
+            case "__TAB__":
+                target.type('\t');
+                break;
+            case "__ENTER__":
+                target.type('\n');
+                break;
+            case "__SPACE__":
+                target.type(' ');
+                break;
+            case "__BACKSPACE__":
+                target.backspace();
+                break;
+            case "__CAPSLOCK__":
+            case "__SHIFT__":
+                // TODO: this.
+                break;
+            case "__CTRL__":
+            case "__WIN__":
+            case "__ALT__":
+                /*How da fuck do I implement this?*/
+                break;
+            default:
+                target.type(action);   
+        }
     }
 
 }
