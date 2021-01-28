@@ -40,7 +40,7 @@ export class Key {
         this.textStyle = textStyle;
 
 
-        props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props);
+        props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props); //I really don't like the label/action setting code.
         if (props.label != null && props.label.constructor === Array) {
             this.label = props.label.slice(0,2);
         } else if (props.label != null && props.label.constructor === String) {
@@ -144,7 +144,7 @@ export class KeyboardUI {
         this.cursor.draw(this.canvas);
     }
     press(target){
-        const action = this.getKeyAtCursor().getAction(this.shift || this.capsLock);//TODO: stop caps lock from working on non-letter keys  
+        const action = this.getKeyAtCursor().getAction(this.shift || this.capsLock); //TODO: stop caps lock from working on non-letter keys  
         this.shift = false;
         switch(action) {
             case "__TAB__":

@@ -110,16 +110,20 @@ let lastTimeout = null;
 
 
 textField.elemenet.addEventListener("keydown", (event)=>{
-    window.clearTimeout(lastTimeout);
 
-    var keyCoord = new Vector2(layout[event.code]);
+    let delta = Vector2.ZERO, keyCoord = new Vector2(layout[event.code]);
     if (lastKeyCoord.x !== null){ 
-        let delta = keyCoord.sub(lastKeyCoord);
+        delta = keyCoord.sub(lastKeyCoord);
         if (delta.magnitude > 45) delta = Vector2.ZERO;
         keyboardUI.cursor.pos = keyboardUI.cursor.pos.add(delta.mult(.75));
     }
     lastKeyCoord = keyCoord;
-    lastTimeout = window.setTimeout(_ => keyboardUI.press(textField), 2000);
+
+    if(delta.magnitude > 0) {
+        console.log("key")
+        window.clearTimeout(lastTimeout);
+        lastTimeout = window.setTimeout(_ => keyboardUI.press(textField), 2000);
+    }
 
     event.preventDefault();
 });
@@ -135,6 +139,9 @@ function init(){
     keyboardUI.draw();
     
     window.keyboardUI = keyboardUI;
+    window.textField = textField;
     window.ctx = ctx;
+    textField.focus();
+    textField.elemenet.value = "123456789";
 }
 init();
