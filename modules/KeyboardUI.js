@@ -64,9 +64,11 @@ export class Key {
             this.action = [''];
         }
         this.action = [...this.action, ...this.action].slice(0,2);
+
+        this.shiftkeys = props.shiftkeys ?? 0b011;
     }
-    getAction(shift) {
-        return this.action[+shift];
+    getAction(shiftState) {
+        return this.action[+!!(this.shiftkeys & shiftState)];
     }
 
     get pos2() {
@@ -95,16 +97,6 @@ export class Key {
     }
 }
 export class KeyboardUI {
-    constructor(keyboardDef, canvas){
-        this.canvas = canvas;
-        this.keys = KeyboardUI.parseKeyboardDef(keyboardDef);   
-        this.cursor = new Cursor(Vector2.ZERO, new Style({
-            fillStyle: Color.RED
-        }));
-        this.shift = false; 
-        this.capsLock = false; 
-    }
-    
     static parseKeyboardDef(keyboardDef){
         let keys = [];
         let y = 0, keyIndex = 0;
@@ -126,6 +118,21 @@ export class KeyboardUI {
         }
         return keys;
     }
+
+    constructor(keyboardDef, canvas){
+        this.canvas = canvas;
+        this.keys = KeyboardUI.parseKeyboardDef(keyboardDef);   
+        this.cursor = new Cursor(Vector2.ZERO, new Style({
+            fillStyle: Color.RED
+        }));
+        this.shift = false; 
+        this.capsLock = false; 
+    }
+    
+    get shiftState(){return +('0b'+ +0+ +this.capsLock+ +this.shift);}
+    get shiftState(){return +`0b${0}${+this.capsLock}${+this.shift}`;}
+
+    
     getKeyAtPoint(point) {
         return this.keys.find(key=>key.bounds.contains(point));
     }
@@ -144,7 +151,7 @@ export class KeyboardUI {
         this.cursor.draw(this.canvas);
     }
     press(target){
-        const action = this.getKeyAtCursor().getAction(this.shift || this.capsLock); //TODO: stop caps lock from working on non-letter keys  
+        const action = this.getKeyAtCursor().getAction(this.shiftState);
         this.shift = false;
         switch(action) {
             case "__TAB__":
@@ -164,6 +171,7 @@ export class KeyboardUI {
                 break;
             case "__CAPSLOCK__":
                 this.capsLock ^= true;
+                break;
             case "__SHIFT__":
                 this.shift = true;
                 break;
