@@ -109,7 +109,7 @@ let lastKeyCoord = Vector2.NULL;
 let lastTimeout = null;
 
 
-textField.elemenet.addEventListener("keydown", (event)=>{
+textField.element.addEventListener("keydown", (event)=>{
 
     let delta = Vector2.ZERO, keyCoord = new Vector2(layout[event.code]);
     if (lastKeyCoord.x !== null){ 
@@ -142,7 +142,7 @@ function init(){
     window.textField = textField;
     window.ctx = ctx;
     textField.focus();
-    textField.elemenet.value =
+    textField.element.value =
 `01234567859
 01234567
 01234
