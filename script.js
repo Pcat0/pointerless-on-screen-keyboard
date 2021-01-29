@@ -142,6 +142,11 @@ function init(){
     window.textField = textField;
     window.ctx = ctx;
     textField.focus();
-    textField.elemenet.value = "123456789";
+    textField.elemenet.value =
+`01234567859
+01234567
+01234
+012345678
+0123456`;
 }
 init();

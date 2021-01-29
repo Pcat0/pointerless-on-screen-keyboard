@@ -170,10 +170,16 @@ export class KeyboardUI {
                 break;
             
             case "__ARROW_UP__":
+                target.moveCursor(0,-1,false);
+                break;
             case "__ARROW_DOWN__":
+                target.moveCursor(0, 1,false);
+                break;
             case "__ARROW_RIGHT__":
+                target.moveCursor(1, 0,false);
+                break;
             case "__ARROW_LEFT__":
-                //This will be a pain.
+                target.moveCursor(-1,0,false);
                 break;
             case "__INSERT__":
             case "__HOME__":
@@ -193,3 +199,5 @@ export class KeyboardUI {
     }
 
 }
+
+
