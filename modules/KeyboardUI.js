@@ -54,7 +54,7 @@ export class Key {
         }
 
         if (props.action != null) {
-            if(props.action.constructor === Array) this.action = props.label; 
+            if(props.action.constructor === Array) this.action = props.action; 
             else this.action = [props.action];
         } else if(props.key != null) {
             this.action = [props.key.toLowerCase(), props.key.toUpperCase()];
@@ -166,20 +166,31 @@ export class KeyboardUI {
                 this.capsLock ^= true;
             case "__SHIFT__":
                 this.shift = true;
-                // TODO: this.
                 break;
             
             case "__ARROW_UP__":
-                target.moveCursor(0,-1,false);
+                target.moveCursor(0,-1, false);
                 break;
             case "__ARROW_DOWN__":
-                target.moveCursor(0, 1,false);
+                target.moveCursor(0, 1, false);
                 break;
             case "__ARROW_RIGHT__":
-                target.moveCursor(1, 0,false);
+                target.moveCursor(1, 0, false);
                 break;
             case "__ARROW_LEFT__":
-                target.moveCursor(-1,0,false);
+                target.moveCursor(-1,0, false);
+                break;
+            case "__SELECT_UP__":
+                target.moveCursor(0,-1, true);
+                break;
+            case "__SELECT_DOWN__":
+                target.moveCursor(0, 1, true);
+                break;
+            case "__SELECT_RIGHT__":
+                target.moveCursor(1, 0, true);
+                break;
+            case "__SELECT_LEFT__":
+                target.moveCursor(-1,0, true);
                 break;
             case "__INSERT__":
             case "__HOME__":

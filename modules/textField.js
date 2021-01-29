@@ -22,10 +22,12 @@ export class TextField {
     get cursor(){return [this.element.selectionStart, this.element.selectionEnd]}
     set cursor(value) {
         if(value.constructor === Array) {
-            let dir = this.selectionDirection ^ (value[0] > value[1]) ? "backward" : "forward";
+            let dir = this.selectionDirection ^ (value[0] > value[1]) ? "backward" : "forward"; //Reverse selection direction if cursorStart is after cursorEnd.
             this.element.setSelectionRange(...value.sort((a,b)=>a-b), dir);
-        }else {
+        } else if(+value === +value)  { //Best way to check if a value can be turned into a number. :)
             this.element.setSelectionRange(value,value);
+        } else {
+            throw 'an unhelpful error message';
         }
     }
 

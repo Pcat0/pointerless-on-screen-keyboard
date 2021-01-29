@@ -85,7 +85,7 @@ const keyboardLayout = {
         {upper:"?", lower:"/"},
         {label:"SHIFT", action:"__SHIFT__"},
         false, 
-        {label:'ᐃ', action:"__ARROW_UP__"},
+        {label:'ᐃ', action:["__ARROW_UP__","__SELECT_UP__"]},
         /* Line 4 */
         {label:"CTRL", action:"__CTRL__"},
         {label:"WIN", action:"__WIN__"},
@@ -96,9 +96,9 @@ const keyboardLayout = {
         {label:"☰"},
         {label:"CTRL",action:"__CTRL__"},
         false,
-        {label:'ᐊ', action:"__ARROW_LEFT__"},
-        {label:'ᐁ', action:"__ARROW_DOWN__"},
-        {label:'ᐅ', action:"__ARROW_RIGHT__"},
+        {label:'ᐊ', action:["__ARROW_LEFT__", "__SELECT_LEFT__"]},
+        {label:'ᐁ', action:["__ARROW_DOWN__", "__SELECT_DOWN__"]},
+        {label:'ᐅ', action:["__ARROW_RIGHT__", "__SELECT_RIGHT__"]},
         
     ]
 }
@@ -120,7 +120,6 @@ textField.element.addEventListener("keydown", (event)=>{
     lastKeyCoord = keyCoord;
 
     if(delta.magnitude > 0) {
-        console.log("key")
         window.clearTimeout(lastTimeout);
         lastTimeout = window.setTimeout(_ => keyboardUI.press(textField), 2000);
     }
