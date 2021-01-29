@@ -9,7 +9,7 @@ const ctx = canvas.getContext("2d");
 
 const keyboardLayout = {
     grid: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, .25, 1, 1, 1],
+        [1,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, .25, 1, 1, 1],
         [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.5, .25, 1, 1, 1],
         [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.25],
         [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1.25, 1],
@@ -17,25 +17,25 @@ const keyboardLayout = {
     ],
     keyProps:[
         /* Line 0 */
-        {upper:"~", lower:"`", shiftkeys:0b001},
-        {upper:"!", lower:"1", shiftkeys:0b001},
-        {upper:"@", lower:"2", shiftkeys:0b001},
-        {upper:"#", lower:"3", shiftkeys:0b001},
-        {upper:"$", lower:"4", shiftkeys:0b001},
-        {upper:"%", lower:"5", shiftkeys:0b001},
-        {upper:"^", lower:"6", shiftkeys:0b001},
-        {upper:"&", lower:"7", shiftkeys:0b001},
-        {upper:"*", lower:"8", shiftkeys:0b001},
-        {upper:"(", lower:"9", shiftkeys:0b001},
-        {upper:")", lower:"0", shiftkeys:0b001},
-        {upper:"_", lower:"-", shiftkeys:0b001},
-        {upper:"+", lower:"=", shiftkeys:0b001},
+        {key:["~","`"], shiftOn:0b01},
+        {key:["!","1"], shiftOn:0b01},
+        {key:["@","2"], shiftOn:0b01},
+        {key:["#","3"], shiftOn:0b01},
+        {key:["$","4"], shiftOn:0b01},
+        {key:["%","5"], shiftOn:0b01},
+        {key:["^","6"], shiftOn:0b01},
+        {key:["&","7"], shiftOn:0b01},
+        {key:["*","8"], shiftOn:0b01},
+        {key:["(","9"], shiftOn:0b01},
+        {key:[")","0"], shiftOn:0b01},
+        {key:["_","-"], shiftOn:0b01},
+        {key:["+","="], shiftOn:0b01},
         {label:"←", action:"__BACKSPACE__"},
         false,
         {label:"Insert", action:"__INSERT__"},
         {label:"Home", action:"__HOME__"},
         {label:["Page", "Up"], action:"__PAGEUP__"},
-        
+
         /* Line 1 */
         {label:"TAB ⭾", action:"__TAB__"},
         {key:"q"},
@@ -48,9 +48,9 @@ const keyboardLayout = {
         {key:"i"},
         {key:"o"},
         {key:"p"},
-        {upper:"{", lower:"[", shiftkeys:0b001},
-        {upper:"}", lower:"]", shiftkeys:0b001},
-        {upper:"|", lower:"\\", shiftkeys:0b001},
+        {key:["{","["], shiftOn:0b01},
+        {key:["}","]"], shiftOn:0b01},
+        {key:["|","\\"], shiftOn:0b01},
         false,
         {label:"⌦", action:"__DELETE__"},
         {label:"End", action:"__END__"},
@@ -67,8 +67,8 @@ const keyboardLayout = {
         {key:"j"},
         {key:"k"},
         {key:"l"},
-        {upper:":", lower:";", shiftkeys:0b001},
-        {upper:"\"", lower:"'", shiftkeys:0b001},
+        {key:[":",";"], shiftOn:0b01},
+        {key:["\"","'"], shiftOn:0b01},
         {label:["ENTER","⏎"], action:"__ENTER__"},
 
         /* Line 3 */
@@ -80,12 +80,13 @@ const keyboardLayout = {
         {key:"b"},
         {key:"n"},
         {key:"m"},
-        {upper:"<", lower:",", shiftkeys:0b001},
-        {upper:">", lower:".", shiftkeys:0b001},
-        {upper:"?", lower:"/", shiftkeys:0b001},
+        {key:["<",","], shiftOn:0b01},
+        {key:[">","."], shiftOn:0b01},
+        {key:["?","/"], shiftOn:0b01},
         {label:"SHIFT", action:"__SHIFT__"},
         false, 
-        {label:'ᐃ', action:["__ARROW_UP__","__SELECT_UP__"], shiftkeys:0b001},
+        {label:'ᐃ', action:["__ARROW_UP__","__SELECT_UP__"], shiftOn:0b001},
+        
         /* Line 4 */
         {label:"CTRL", action:"__CTRL__"},
         {label:"WIN", action:"__WIN__"},
@@ -96,9 +97,9 @@ const keyboardLayout = {
         {label:"☰"},
         {label:"CTRL",action:"__CTRL__"},
         false,
-        {label:'ᐊ', action:["__ARROW_LEFT__", "__SELECT_LEFT__"], shiftkeys:0b001},
-        {label:'ᐁ', action:["__ARROW_DOWN__", "__SELECT_DOWN__"], shiftkeys:0b001},
-        {label:'ᐅ', action:["__ARROW_RIGHT__", "__SELECT_RIGHT__"], shiftkeys:0b001},
+        {label:'ᐊ', action:["__ARROW_LEFT__", "__SELECT_LEFT__"], shiftOn:0b01},
+        {label:'ᐁ', action:["__ARROW_DOWN__", "__SELECT_DOWN__"], shiftOn:0b01},
+        {label:'ᐅ', action:["__ARROW_RIGHT__", "__SELECT_RIGHT__"], shiftOn:0b01},
         
     ]
 }

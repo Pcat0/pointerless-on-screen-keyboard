@@ -95,30 +95,9 @@ export class Key {
             canvas.fillText(this.label[1], ...this.bounds.center);
         }
     }
+    static removePropShorthand
 }
 export class KeyboardUI {
-    static parseKeyboardDef(keyboardDef){
-        let keys = [];
-        let y = 0, keyIndex = 0;
-        for (const row of keyboardDef.grid) {
-            let x = 0;
-            for(const col of row) {
-                if(keyboardDef.keyProps[keyIndex]){
-                    keys.push(new Key(
-                        new Vector2(x, y),
-                        new Vector2(col, 1),
-                        keyboardDef.keyProps[keyIndex],
-                        DEFAULT_KEY_STYLE,
-                        DEFAULT_KEY_TEXT_STYLE));
-                }
-                x += col;
-                keyIndex++;
-            }
-            y += 1;
-        }
-        return keys;
-    }
-
     constructor(keyboardDef, canvas){
         this.canvas = canvas;
         this.keys = KeyboardUI.parseKeyboardDef(keyboardDef);   
@@ -215,6 +194,28 @@ export class KeyboardUI {
             default:
                 target.type(action);   
         }
+    }
+
+    static parseKeyboardDef(keyboardDef){
+        let keys = [];
+        let y = 0, keyIndex = 0;
+        for (const row of keyboardDef.grid) {
+            let x = 0;
+            for(const col of row) {
+                if(keyboardDef.keyProps[keyIndex]){
+                    keys.push(new Key(
+                        new Vector2(x, y),
+                        new Vector2(col, 1),
+                        keyboardDef.keyProps[keyIndex],
+                        DEFAULT_KEY_STYLE,
+                        DEFAULT_KEY_TEXT_STYLE));
+                }
+                x += col;
+                keyIndex++;
+            }
+            y += 1;
+        }
+        return keys;
     }
 
 }
