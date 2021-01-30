@@ -35,40 +35,19 @@ export class Cursor {
 
 export class Key {
     constructor(pos, dim, props, style, textStyle) {
+        props = Key.parsePropsShorthand(props);
+
         this.bounds = new BoundingBox(pos.mult(40), pos.mult(40).add(dim.mult(40)));
         this.style = style;
         this.textStyle = textStyle;
 
 
-        props = Object.assign({}, {label: null, key: null, upper: null, lower: null}, props); //I really don't like the label/action setting code.
-        if (props.label != null && props.label.constructor === Array) {
-            this.label = props.label.slice(0,2);
-        } else if (props.label != null && props.label.constructor === String) {
-            this.label = [props.label];
-        } else if (props.key != null) {
-            this.label = [props.key.toUpperCase()];
-        } else if (props.upper != null && props.lower != null) {
-            this.label = [props.upper, props.lower];
-        }else {
-            this.label = [''];
-        }
-
-        if (props.action != null) {
-            if(props.action.constructor === Array) this.action = props.action; 
-            else this.action = [props.action];
-        } else if(props.key != null) {
-            this.action = [props.key.toLowerCase(), props.key.toUpperCase()];
-        } else if (props.upper != null && props.lower != null) {
-            this.action = [props.lower, props.upper];
-        } else {
-            this.action = [''];
-        }
-        this.action = [...this.action, ...this.action].slice(0,2);
-
-        this.shiftkeys = props.shiftkeys ?? 0b011;
+        this.label = props.label;
+        this.action = props.action;
+        this.shiftOn = props.shiftOn;
     }
     getAction(shiftState) {
-        return this.action[+!!(this.shiftkeys & shiftState)];
+        return this.action[+!(this.shiftOn & shiftState)];
     }
 
     get pos2() {
@@ -95,7 +74,19 @@ export class Key {
             canvas.fillText(this.label[1], ...this.bounds.center);
         }
     }
-    static removePropShorthand
+    static parsePropsShorthand(props) {
+        let fullProps = {};
+        let key = props.key ?? ''
+        fullProps.shiftOn = props.shiftOn ?? 0b11;
+        let label = props.label ?? key;
+        fullProps.label = (label.constructor === Array)? label : [label];
+
+        let action = props.action ?? 
+            (key.constructor === Array ? key : [key.toUpperCase(), key.toLowerCase()]);
+        fullProps.action = (action.constructor === Array)? action : [action, action];
+        console.log(props, fullProps);
+        return fullProps;
+    }
 }
 export class KeyboardUI {
     constructor(keyboardDef, canvas){
@@ -108,8 +99,7 @@ export class KeyboardUI {
         this.capsLock = false; 
     }
     
-    get shiftState(){return +('0b'+ +0+ +this.capsLock+ +this.shift);}
-    get shiftState(){return +`0b${0}${+this.capsLock}${+this.shift}`;}
+    get shiftState(){return +('0b'+ +this.capsLock+ +this.shift);}
 
     
     getKeyAtPoint(point) {

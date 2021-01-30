@@ -85,7 +85,7 @@ const keyboardLayout = {
         {key:["?","/"], shiftOn:0b01},
         {label:"SHIFT", action:"__SHIFT__"},
         false, 
-        {label:'ᐃ', action:["__ARROW_UP__","__SELECT_UP__"], shiftOn:0b001},
+        {label:'ᐃ', action:["__SELECT_UP__", "__ARROW_UP__"], shiftOn:0b001},
         
         /* Line 4 */
         {label:"CTRL", action:"__CTRL__"},
@@ -97,9 +97,9 @@ const keyboardLayout = {
         {label:"☰"},
         {label:"CTRL",action:"__CTRL__"},
         false,
-        {label:'ᐊ', action:["__ARROW_LEFT__", "__SELECT_LEFT__"], shiftOn:0b01},
-        {label:'ᐁ', action:["__ARROW_DOWN__", "__SELECT_DOWN__"], shiftOn:0b01},
-        {label:'ᐅ', action:["__ARROW_RIGHT__", "__SELECT_RIGHT__"], shiftOn:0b01},
+        {label:'ᐊ', action:["__SELECT_LEFT__", "__ARROW_LEFT__"], shiftOn:0b01},
+        {label:'ᐁ', action:["__SELECT_DOWN__", "__ARROW_DOWN__"], shiftOn:0b01},
+        {label:'ᐅ', action:["__SELECT_RIGHT__", "__ARROW_RIGHT__"], shiftOn:0b01},
         
     ]
 }
